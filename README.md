@@ -1,6 +1,6 @@
 # GPT4 LangChain Agents Research Web App
 ### Description
-Python Streamlit web app utilizing OpenAI (GPT4) and LangChain language modeling tools with access to Wikipedia, YouTube, DuckDuckgo, and a ChromaDb with previous research and embeddings. Ultimately delivering a comprehensive research report for a user-specified input, including an introduction, quantitative facts, recent publications, recommended books, and relevant youtube links. As well as having the ability to access previous research.
+Python Streamlit web app utilizing OpenAI (GPT4) and LangChain language modeling tools with access to Wikipedia, DuckDuckgo Search, and a ChromaDb with previous research and embeddings. Ultimately delivering a comprehensive research report for a user-specified input, including an introduction, quantitative facts, recent publications, recommended books, and relevant youtube links. As well as having the ability to access previous research.
 
 ### V2 Screenshots
 
