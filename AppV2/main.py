@@ -15,6 +15,7 @@ from langchain.tools import DuckDuckGoSearchRun
 from langchain.utilities import WikipediaAPIWrapper
 from langchain.tools import YouTubeSearchTool
 from langchain.vectorstores import Chroma
+from langchain.chains import RetrievalQA
 from youtubesearchpython import VideosSearch
 import sqlite3
 import pandas as pd
@@ -53,6 +54,7 @@ def insert_research(user_input, introduction, quant_facts, publications, books, 
 
 
 def generate_research(userInput):
+    llm=OpenAI(temperature=TEMP)
     wiki = WikipediaAPIWrapper()
     DDGsearch = DuckDuckGoSearchRun()
     YTsearch = YouTubeSearchTool()
@@ -74,20 +76,23 @@ def generate_research(userInput):
         )
     ]
     if st.session_state.embeddings_db:
+        qa = RetrievalQA.from_chain_type(llm=llm, 
+                                         chain_type="stuff", 
+                                         retriever=st.session_state.embeddings_db.as_retriever())
         tools.append(
             Tool(
-                name = 'Previous Research Chroma Database Tool',
-                func = st.session_state.embeddings_db.similarity_search(userInput),
-                description="Useful for looking up similar previous research/information in chromaDB"
+                name = 'Previous Research Database Tool',
+                func = qa.run,
+                description="Useful for looking up previous research/information"
             )
         )
     memory = ConversationBufferMemory(memory_key="chat_history")
-    llm=OpenAI(temperature=TEMP)
     runAgent = initialize_agent(tools, 
                                 llm, 
                                 agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION, 
                                 verbose=True, 
-                                memory=memory)
+                                memory=memory,
+                                )
 
     with st.expander("Generative Results", expanded=True):
         st.subheader("User Input:")
@@ -163,7 +168,7 @@ def main():
     create_research_db()
     embedding_function = OpenAIEmbeddings()
     st.session_state.setdefault("embeddings_db", None)
-    if os.path.exists("/chroma_db"):
+    if os.path.exists("./chroma_db"):
         st.session_state.embeddings_db = Chroma(persist_directory="./chroma_db", embedding_function=embedding_function)
     st.header("GPT-4 LangChain Agents Research Bot")
     st.caption("Powered by OpenAI, LangChain, ChromaDB, SQLite, YouTube, Wikepedia, DuckDuckGo, Streamlit")
