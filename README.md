@@ -1,6 +1,6 @@
 # GPT4 LangChain Agents Research Web App
 ### Description
-o	Web app utilizing OpenAI (GPT4) and LangChain agents with access to PubMed, Wikipedia, and DuckDuckGo. Ultimately delivering a research report for a user-specified input, including an introduction, quantitative facts,  relevant publications, books, and YouTube links. Users can then also chat about this and other previous research with a GPT4 chatbot. Data is stored relationally in SQLite and also vectorized into a ChromaDB for agent retrieval.
+Python Streamlit web app utilizing OpenAI (GPT4) and LangChain agents with access to PubMed, Wikipedia, and DuckDuckGo. Ultimately delivering a research report for a user-specified input, including an introduction, quantitative facts,  relevant publications, books, and YouTube links. Users can then also chat about this and other previous research with a GPT4 chatbot. Data is stored relationally in SQLite and also vectorized into a ChromaDB for agent retrieval.
 
 ### V2 Screenshots
 #### V2 Research Generation
